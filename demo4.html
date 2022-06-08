@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父子组件的静态和动态传值（传方法）</title>
+    <script src="vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        // 创建一个 Vue 实例 既创建一个根组件
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: '孙振',
+                    pay:()=>{
+                        alert('3231')
+                    }
+                }
+            },
+            methods: {
+            },
+            template:
+                `
+                父组件传值给子组件 Son（静态参数）:
+                <Son sz="你好"/>
+                动态参数：
+                <Son1 :father='message'/>
+                调用父组件 data 中的 pay 方法：
+                <PayMoney :pay="pay"/>
+            `
+        })
+        // 创建子组件
+        app.component('Son', {
+            props: ['sz'],
+            template:
+                `
+                <div>我是全局组件 子组件 Son&nbsp&nbsp&nbsp{{sz}} -- 我是静态参数(写死的)</div>
+            `
+        })
+        app.component('Son1', {
+            props: ['father'],
+            template:
+                `
+                <div>我是全局组件 子组件 Son1&nbsp&nbsp&nbsp{{father}} -- 我是动态参数（来自父组件的data）</div>
+            `
+        })
+        app.component('PayMoney', {
+            data(){
+                return{payMoneyData:'123'}
+            },
+            props: ['pay'],
+            methods: {
+                handleClick() {
+                    alert('子组件的 handleClick 方法')
+                    this.pay()  //data 中的 pay 方法
+                }
+            },
+            template: `<div @click="this.handleClick"> 调用父组件和子组件的方法{{payMoneyData}} </div>`
+        })
+        const vm = app.mount("#app")
+    </script>
+</body>
+
+</html>
