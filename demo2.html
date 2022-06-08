@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>局部组件</title>
+    <script src="vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        const myDiv = {
+            data() {
+                return {
+                    myData: 1
+                }
+            },
+            template:
+                `
+                {{myData}}
+                <div @click="myData++">我是div,我是局部div</div>
+            `
+        }
+        // 创建一个 Vue 实例 既创建一个根组件
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: '',
+                }
+            },
+            methods: {
+
+            },
+            components: { sz: myDiv },
+            template:
+                `<div>
+                <sz/><sz/>
+                </div>
+            `
+        })
+
+        const vm = app.mount("#app")
+    </script>
+</body>
+
+</html>
