@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-props使用技巧</title>
+    <script src="vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        // 创建一个 Vue 实例 既创建一个根组件
+        const app = Vue.createApp({
+           
+          template:
+          `
+            <h1>你好</h1>
+            <Hello msg='432' style='color:red'>
+          `
+        })
+        // 创建子组件
+        app.component('Hello',{ 
+            // inheritAttrs:false,//将父组件调用的子组件中的属性失效
+            // props:['msg'], // 使用 props 接收属性后，在 dom 中就不会出现该属性
+            template:// v-bind="$attrs" -- 把父组件传递的所以参数属性都复制到子组件当中
+            // 如果只想复制其中的特定属性，则使用 v-bind="$attrs.style"
+            `
+                <h2  v-bind="$attrs">我是你八八</h2>
+                <h2 :style="$attrs.style">我是你99</h2>
+                <h2>我是你000</h2>
+            `
+            ,
+           
+        })
+        const vm = app.mount("#app")
+    </script>
+</body>
+
+</html>
